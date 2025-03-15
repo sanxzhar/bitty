@@ -20,23 +20,24 @@ module control_unit(
     output wire [3:0]       mux_sel
 );
 
-    reg             reg_done,
-    reg             reg_en_s,
-    reg             reg_en_c,
-    reg             reg_mode,
-    reg             reg_en_0,
-    reg             reg_en_1,
-    reg             reg_en_2,
-    reg             reg_en_3,
-    reg             reg_en_4,
-    reg             reg_en_5,
-    reg             reg_en_6,
-    reg             reg_en_7,
-    reg             reg_en_i,
-    reg [3:0]       reg_alu_sel,
-    reg [3:0]       reg_mux_sel
+    reg             reg_done;
+    reg             reg_mode;
+    reg             reg_en_s;
+    reg             reg_en_c;
+    reg             reg_en_0;
+    reg             reg_en_1;
+    reg             reg_en_2;
+    reg             reg_en_3;
+    reg             reg_en_4;
+    reg             reg_en_5;
+    reg             reg_en_6;
+    reg             reg_en_7;
+    reg             reg_en_i;
+    reg [3:0]       reg_alu_sel;
+    reg [3:0]       reg_mux_sel;
 
     assign done    = reg_done;
+    assign mode    = reg_mode;
     assign en_s    = reg_en_s;
     assign en_c    = reg_en_c;
     assign en_0    = reg_en_0;
@@ -51,11 +52,12 @@ module control_unit(
     assign alu_sel = reg_alu_sel;
     assign mux_sel = reg_mux_sel;
 
+    parameter INITIAL_STATE     = 2'b00;
     parameter LOAD_STATE        = 2'b01;
     parameter CALCULATE_STATE   = 2'b10;
     parameter STORE_STATE       = 2'b11;
 
-    reg [1:0] current_state;
+    reg [1:0] current_state = INITIAL_STATE;
 
     wire alu_mode = d_in[2]; 
     wire [3:0] alu_selection = d_in[6:3];
@@ -64,13 +66,14 @@ module control_unit(
     
     always @(posedge clk or posedge reset) begin
         if(reset)
-            current_state <= LOAD_STATE;
+            current_state <= INITIAL_STATE;
         else if(run) begin
             case(current_state)
+                INITIAL_STATE:   current_state <= LOAD_STATE;
                 LOAD_STATE:      current_state <= CALCULATE_STATE;
                 CALCULATE_STATE: current_state <= STORE_STATE;
-                STORE_STATE:     current_state <= LOAD_STATE;
-                default:         current_state <= LOAD_STATE;
+                STORE_STATE:     current_state <= INITIAL_STATE;
+                default:         current_state <= INITIAL_STATE;
             endcase
         end
     end
@@ -95,6 +98,9 @@ module control_unit(
 
         if(!reset && run) begin
             case(current_state)
+                INITIAL_STATE: begin
+                    reg_en_i    = 1'b1;
+                end
                 LOAD_STATE: begin
                     reg_mux_sel = {1'b0, first_operand};
                     reg_en_s    = 1'b1;
@@ -117,6 +123,23 @@ module control_unit(
                         3'b111: reg_en_7 = 1'b1;
                     endcase
                     reg_done = 1'b1;
+                end
+                default: begin
+                    reg_done = 1'b0;
+                    reg_mode = 1'b0;
+                    reg_en_s = 1'b0;
+                    reg_en_c = 1'b0;
+                    reg_en_0 = 1'b0;
+                    reg_en_1 = 1'b0;
+                    reg_en_2 = 1'b0;
+                    reg_en_3 = 1'b0;
+                    reg_en_4 = 1'b0;
+                    reg_en_5 = 1'b0;
+                    reg_en_6 = 1'b0;
+                    reg_en_7 = 1'b0;
+                    reg_en_i = 1'b0;
+                    reg_alu_sel = 4'b0000;
+                    reg_mux_sel = 4'b0000;
                 end
             endcase
         end
