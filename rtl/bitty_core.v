@@ -6,94 +6,118 @@ module bitty_core (
     output wire              done
 );
 
-    // input  wire             clk,
-    // input  wire             reset,
-    // input  wire             run,
-    // input  wire [15:0]      d_in,
-    // output wire             done,
-    // output wire             mode,
-    // output wire             en_s,
-    // output wire             en_c,
-    // output wire             en_0,
-    // output wire             en_1,
-    // output wire             en_2,
-    // output wire             en_3,
-    // output wire             en_4,
-    // output wire             en_5,
-    // output wire             en_6,
-    // output wire             en_7,
-    // output wire             en_i,
-    // output wire [3:0]       alu_sel,
-    // output wire [3:0]       mux_sel 
+    wire en_s;
+    wire en_c;
+    wire en_0;
+    wire en_1;
+    wire en_2;
+    wire en_3;
+    wire en_4;
+    wire en_5;
+    wire en_6;
+    wire en_7;
+    wire en_i;
 
-    wire [15:0] inst_d;
-    wire [15:0] mux_d;
-    wire [15:0] reg_s_d;
-    wire [15:0] reg_c_d;
-    wire [15:0] reg_0_d;
-    wire [15:0] reg_1_d;
-    wire [15:0] reg_2_d;
-    wire [15:0] reg_3_d;
-    wire [15:0] reg_4_d;
-    wire [15:0] reg_5_d;
-    wire [15:0] reg_6_d;
-    wire [15:0] reg_7_d;
-    wire [15:0] alu_d;
+    wire [15:0]             reg_inst_to_control_unit;
+    wire                    control_unit_to_alu_mode;
+    wire [3:0]              control_unit_to_alu_sel;
+    wire [3:0]              control_unit_to_mux_sel;
 
-    wire        en_i;
-    wire        en_s;
-    wire        en_c;
-    wire        en_0;
-    wire        en_1;
-    wire        en_2;
-    wire        en_3;
-    wire        en_4;
-    wire        en_5;
-    wire        en_6;
-    wire        en_7;
-    wire        alu_mode;
-    wire [3:0]  alu_sel;
-    wire [3:0]  mux_sel;
+    wire [15:0]             reg_c_to_regs;
+    wire [15:0]             reg0_to_mux;
+    wire [15:0]             reg1_to_mux;
+    wire [15:0]             reg2_to_mux;
+    wire [15:0]             reg3_to_mux;
+    wire [15:0]             reg4_to_mux;
+    wire [15:0]             reg5_to_mux;
+    wire [15:0]             reg6_to_mux;
+    wire [15:0]             reg7_to_mux;
+    wire [15:0]             mux_out;
 
-    register reg_inst(
+    wire [15:0]             reg_s_to_alu;
+    wire                    alu_carry_out;
+    wire                    alu_compare;
+    wire [15:0]             alu_to_reg_c;
+
+    register RegInst(
         .clk(clk),
         .reset(reset),
         .en_i(en_i),
         .d_in(instraction),
-        .d_out(inst_d),
+        .d_out(reg_inst_to_control_unit)
     );
 
-    register reg_s(
+    register Reg0(
         .clk(clk),
         .reset(reset),
-        .en_i(en_s),
-        .d_in(mux_d),
-        .d_out(reg_s_d),
+        .en_i(en_0),
+        .d_in(reg_c_to_regs),
+        .d_out(reg0_to_mux)
     );
 
-    register reg_c(
+    register Reg1(
         .clk(clk),
         .reset(reset),
-        .en_i(en_c),
-        .d_in(alu_d),
-        .d_out(reg_c_d),
+        .en_i(en_1),
+        .d_in(reg_c_to_regs),
+        .d_out(reg1_to_mux)
     );
 
-    register reg_0(
+    register Reg2(
         .clk(clk),
         .reset(reset),
-        .en_i(en_c),
-        .d_in(alu_d),
-        .d_out(reg_c_d),
+        .en_i(en_2),
+        .d_in(reg_c_to_regs),
+        .d_out(reg2_to_mux)
     );
 
-    control_unit cu(
+    register Reg3(
+        .clk(clk),
+        .reset(reset),
+        .en_i(en_3),
+        .d_in(reg_c_to_regs),
+        .d_out(reg3_to_mux)
+    );
+
+    register Reg4(
+        .clk(clk),
+        .reset(reset),
+        .en_i(en_4),
+        .d_in(reg_c_to_regs),
+        .d_out(reg4_to_mux)
+    );
+
+    register Reg5(
+        .clk(clk),
+        .reset(reset),
+        .en_i(en_5),
+        .d_in(reg_c_to_regs),
+        .d_out(reg5_to_mux)
+    );
+
+    register Reg6(
+        .clk(clk),
+        .reset(reset),
+        .en_i(en_6),
+        .d_in(reg_c_to_regs),
+        .d_out(reg6_to_mux)
+    );
+
+    register Reg7(
+        .clk(clk),
+        .reset(reset),
+        .en_i(en_7),
+        .d_in(reg_c_to_regs),
+        .d_out(reg7_to_mux)
+    );
+
+    control_unit ControlUnit(
         .clk(clk),
         .reset(reset),
         .run(run),
-        .d_in(inst_d),
+        .d_in(reg_inst_to_control_unit),
         .done(done),
-        .mode(alu_mode),
+        .mode(control_unit_to_alu_mode),
         .en_s(en_s),
         .en_c(en_c),
         .en_0(en_0),
@@ -105,15 +129,50 @@ module bitty_core (
         .en_6(en_6),
         .en_7(en_7),
         .en_i(en_i),
-        .en_i(en_i),
-        .alu_sel(alu_sel)
-        .mux_sel(mux_sel)
+        .alu_sel(control_unit_to_alu_sel),
+        .mux_sel(control_unit_to_mux_sel)
     );
 
-    mux main_mux(
-        .sel(mux_sel),
-        .reg_0()
+    mux Mux(
+        .sel(control_unit_to_mux_sel),
+        .reg_0(reg0_to_mux),
+        .reg_1(reg1_to_mux),
+        .reg_2(reg2_to_mux),
+        .reg_3(reg3_to_mux),
+        .reg_4(reg4_to_mux),
+        .reg_5(reg5_to_mux),
+        .reg_6(reg6_to_mux),
+        .reg_7(reg7_to_mux),
+        .reg_8(16'b0),
+        .reg_9(16'b0),
+        .out(mux_out)
     );
 
+    register RegS(
+        .clk(clk),
+        .reset(reset),
+        .en_i(en_s),
+        .d_in(mux_out),
+        .d_out(reg_s_to_alu)
+    );
+
+    alu Alu(
+        .carry_in(0),
+        .in_a(reg_s_to_alu),
+        .in_b(mux_out),
+        .select(control_unit_to_alu_sel),
+        .mode(control_unit_to_alu_mode),
+        .carry_out(alu_carry_out),
+        .compare(alu_compare),
+        .alu_out(alu_to_reg_c)
+    );
+
+    register RegC(
+        .clk(clk),
+        .reset(reset),
+        .en_i(en_c),
+        .d_in(alu_to_reg_c),
+        .d_out(reg_c_to_regs)
+    );
 
 endmodule
