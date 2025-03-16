@@ -17,8 +17,7 @@ int main(int argc, char** argv) {
         
         uint8_t first_operand = (d_in >> 13) & 0x7;
         uint8_t second_operand = (d_in >> 10) & 0x7;
-        uint8_t alu_selection = (d_in >> 3) & 0xF;
-        uint8_t alu_mode = (d_in >> 2) & 0x1;
+        uint8_t alu_selection = (d_in >> 2) & 0x7;
         
         dut->reset = 1;
         dut->run = 0;
@@ -94,13 +93,6 @@ int main(int argc, char** argv) {
         if (dut->alu_sel != alu_selection) {
             std::cout << "Test " << test << " FAIL: Expected alu_sel = " << static_cast<int>(alu_selection)
                       << " in CALCULATE_STATE, Got alu_sel = " << static_cast<int>(dut->alu_sel) << std::endl;
-            test_passed = false;
-            failed_tests++;
-        }
-        
-        if (dut->mode != alu_mode) {
-            std::cout << "Test " << test << " FAIL: Expected mode = " << static_cast<int>(alu_mode)
-                      << " in CALCULATE_STATE, Got mode = " << static_cast<int>(dut->mode) << std::endl;
             test_passed = false;
             failed_tests++;
         }

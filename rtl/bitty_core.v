@@ -1,22 +1,22 @@
 module bitty_core (
-    input  wire              clk,
-    input  wire              reset,
-    input  wire              run,
-    input  wire [15:0]       instraction,
-    output wire              done
+    input  wire             clk,
+    input  wire             reset,
+    input  wire             run,
+    input  wire [15:0]      instraction,
+    output wire             done
 );
 
-    wire en_s;
-    wire en_c;
-    wire en_0;
-    wire en_1;
-    wire en_2;
-    wire en_3;
-    wire en_4;
-    wire en_5;
-    wire en_6;
-    wire en_7;
-    wire en_i;
+    wire                    en_s;
+    wire                    en_c;
+    wire                    en_0;
+    wire                    en_1;
+    wire                    en_2;
+    wire                    en_3;
+    wire                    en_4;
+    wire                    en_5;
+    wire                    en_6;
+    wire                    en_7;
+    wire                    en_i;
 
     wire [15:0]             reg_inst_to_control_unit;
     wire                    control_unit_to_alu_mode;

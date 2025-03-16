@@ -1,16 +1,16 @@
 // Verilated -*- C++ -*-
 // DESCRIPTION: Verilator output: Symbol table implementation internals
 
-#include "Vcontrol_unit__pch.h"
-#include "Vcontrol_unit.h"
-#include "Vcontrol_unit___024root.h"
+#include "Valu__pch.h"
+#include "Valu.h"
+#include "Valu___024root.h"
 
 // FUNCTIONS
-Vcontrol_unit__Syms::~Vcontrol_unit__Syms()
+Valu__Syms::~Valu__Syms()
 {
 }
 
-Vcontrol_unit__Syms::Vcontrol_unit__Syms(VerilatedContext* contextp, const char* namep, Vcontrol_unit* modelp)
+Valu__Syms::Valu__Syms(VerilatedContext* contextp, const char* namep, Valu* modelp)
     : VerilatedSyms{contextp}
     // Setup internal state of the Syms class
     , __Vm_modelp{modelp}
@@ -18,7 +18,7 @@ Vcontrol_unit__Syms::Vcontrol_unit__Syms(VerilatedContext* contextp, const char*
     , TOP{this, namep}
 {
         // Check resources
-        Verilated::stackCheck(111);
+        Verilated::stackCheck(25);
     // Configure time unit / time precision
     _vm_contextp__->timeunit(-12);
     _vm_contextp__->timeprecision(-12);

@@ -13,7 +13,6 @@ Vcontrol_unit::Vcontrol_unit(VerilatedContext* _vcontextp__, const char* _vcname
     , reset{vlSymsp->TOP.reset}
     , run{vlSymsp->TOP.run}
     , done{vlSymsp->TOP.done}
-    , mode{vlSymsp->TOP.mode}
     , en_s{vlSymsp->TOP.en_s}
     , en_c{vlSymsp->TOP.en_c}
     , en_0{vlSymsp->TOP.en_0}

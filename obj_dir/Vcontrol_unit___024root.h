@@ -18,7 +18,6 @@ class alignas(VL_CACHE_LINE_BYTES) Vcontrol_unit___024root final : public Verila
     VL_IN8(reset,0,0);
     VL_IN8(run,0,0);
     VL_OUT8(done,0,0);
-    VL_OUT8(mode,0,0);
     VL_OUT8(en_s,0,0);
     VL_OUT8(en_c,0,0);
     VL_OUT8(en_0,0,0);
@@ -30,7 +29,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vcontrol_unit___024root final : public Verila
     VL_OUT8(en_6,0,0);
     VL_OUT8(en_7,0,0);
     VL_OUT8(en_i,0,0);
-    VL_OUT8(alu_sel,3,0);
+    VL_OUT8(alu_sel,2,0);
     VL_OUT8(mux_sel,3,0);
     CData/*1:0*/ control_unit__DOT__current_state;
     CData/*0:0*/ __VstlFirstIteration;

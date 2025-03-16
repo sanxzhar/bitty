@@ -24,8 +24,6 @@ VL_INLINE_OPT void Vcontrol_unit___024root___ico_sequent__TOP__0(Vcontrol_unit__
     // Init
     CData/*0:0*/ control_unit__DOT__reg_done;
     control_unit__DOT__reg_done = 0;
-    CData/*0:0*/ control_unit__DOT__reg_mode;
-    control_unit__DOT__reg_mode = 0;
     CData/*0:0*/ control_unit__DOT__reg_en_s;
     control_unit__DOT__reg_en_s = 0;
     CData/*0:0*/ control_unit__DOT__reg_en_c;
@@ -48,7 +46,7 @@ VL_INLINE_OPT void Vcontrol_unit___024root___ico_sequent__TOP__0(Vcontrol_unit__
     control_unit__DOT__reg_en_7 = 0;
     CData/*0:0*/ control_unit__DOT__reg_en_i;
     control_unit__DOT__reg_en_i = 0;
-    CData/*3:0*/ control_unit__DOT__reg_alu_sel;
+    CData/*2:0*/ control_unit__DOT__reg_alu_sel;
     control_unit__DOT__reg_alu_sel = 0;
     CData/*3:0*/ control_unit__DOT__reg_mux_sel;
     control_unit__DOT__reg_mux_sel = 0;
@@ -57,7 +55,6 @@ VL_INLINE_OPT void Vcontrol_unit___024root___ico_sequent__TOP__0(Vcontrol_unit__
     control_unit__DOT__reg_en_s = 0U;
     control_unit__DOT__reg_en_c = 0U;
     control_unit__DOT__reg_en_i = 0U;
-    control_unit__DOT__reg_mode = 0U;
     control_unit__DOT__reg_en_0 = 0U;
     control_unit__DOT__reg_en_1 = 0U;
     control_unit__DOT__reg_en_2 = 0U;
@@ -118,12 +115,9 @@ VL_INLINE_OPT void Vcontrol_unit___024root___ico_sequent__TOP__0(Vcontrol_unit__
             }
             if ((1U & (~ (IData)(vlSelfRef.control_unit__DOT__current_state)))) {
                 control_unit__DOT__reg_en_c = 1U;
-                control_unit__DOT__reg_mode = (1U & 
-                                               ((IData)(vlSelfRef.d_in) 
-                                                >> 2U));
-                control_unit__DOT__reg_alu_sel = (0xfU 
+                control_unit__DOT__reg_alu_sel = (7U 
                                                   & ((IData)(vlSelfRef.d_in) 
-                                                     >> 3U));
+                                                     >> 2U));
                 control_unit__DOT__reg_mux_sel = (7U 
                                                   & ((IData)(vlSelfRef.d_in) 
                                                      >> 0xaU));
@@ -147,7 +141,6 @@ VL_INLINE_OPT void Vcontrol_unit___024root___ico_sequent__TOP__0(Vcontrol_unit__
     vlSelfRef.en_s = control_unit__DOT__reg_en_s;
     vlSelfRef.en_c = control_unit__DOT__reg_en_c;
     vlSelfRef.en_i = control_unit__DOT__reg_en_i;
-    vlSelfRef.mode = control_unit__DOT__reg_mode;
     vlSelfRef.en_0 = control_unit__DOT__reg_en_0;
     vlSelfRef.en_1 = control_unit__DOT__reg_en_1;
     vlSelfRef.en_2 = control_unit__DOT__reg_en_2;
@@ -205,8 +198,6 @@ VL_INLINE_OPT void Vcontrol_unit___024root___nba_sequent__TOP__0(Vcontrol_unit__
     // Init
     CData/*0:0*/ control_unit__DOT__reg_done;
     control_unit__DOT__reg_done = 0;
-    CData/*0:0*/ control_unit__DOT__reg_mode;
-    control_unit__DOT__reg_mode = 0;
     CData/*0:0*/ control_unit__DOT__reg_en_s;
     control_unit__DOT__reg_en_s = 0;
     CData/*0:0*/ control_unit__DOT__reg_en_c;
@@ -229,7 +220,7 @@ VL_INLINE_OPT void Vcontrol_unit___024root___nba_sequent__TOP__0(Vcontrol_unit__
     control_unit__DOT__reg_en_7 = 0;
     CData/*0:0*/ control_unit__DOT__reg_en_i;
     control_unit__DOT__reg_en_i = 0;
-    CData/*3:0*/ control_unit__DOT__reg_alu_sel;
+    CData/*2:0*/ control_unit__DOT__reg_alu_sel;
     control_unit__DOT__reg_alu_sel = 0;
     CData/*3:0*/ control_unit__DOT__reg_mux_sel;
     control_unit__DOT__reg_mux_sel = 0;
@@ -249,7 +240,6 @@ VL_INLINE_OPT void Vcontrol_unit___024root___nba_sequent__TOP__0(Vcontrol_unit__
     control_unit__DOT__reg_en_s = 0U;
     control_unit__DOT__reg_en_c = 0U;
     control_unit__DOT__reg_en_i = 0U;
-    control_unit__DOT__reg_mode = 0U;
     control_unit__DOT__reg_en_0 = 0U;
     control_unit__DOT__reg_en_1 = 0U;
     control_unit__DOT__reg_en_2 = 0U;
@@ -310,12 +300,9 @@ VL_INLINE_OPT void Vcontrol_unit___024root___nba_sequent__TOP__0(Vcontrol_unit__
             }
             if ((1U & (~ (IData)(vlSelfRef.control_unit__DOT__current_state)))) {
                 control_unit__DOT__reg_en_c = 1U;
-                control_unit__DOT__reg_mode = (1U & 
-                                               ((IData)(vlSelfRef.d_in) 
-                                                >> 2U));
-                control_unit__DOT__reg_alu_sel = (0xfU 
+                control_unit__DOT__reg_alu_sel = (7U 
                                                   & ((IData)(vlSelfRef.d_in) 
-                                                     >> 3U));
+                                                     >> 2U));
                 control_unit__DOT__reg_mux_sel = (7U 
                                                   & ((IData)(vlSelfRef.d_in) 
                                                      >> 0xaU));
@@ -339,7 +326,6 @@ VL_INLINE_OPT void Vcontrol_unit___024root___nba_sequent__TOP__0(Vcontrol_unit__
     vlSelfRef.en_s = control_unit__DOT__reg_en_s;
     vlSelfRef.en_c = control_unit__DOT__reg_en_c;
     vlSelfRef.en_i = control_unit__DOT__reg_en_i;
-    vlSelfRef.mode = control_unit__DOT__reg_mode;
     vlSelfRef.en_0 = control_unit__DOT__reg_en_0;
     vlSelfRef.en_1 = control_unit__DOT__reg_en_1;
     vlSelfRef.en_2 = control_unit__DOT__reg_en_2;
