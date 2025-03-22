@@ -115,12 +115,38 @@ VL_INLINE_OPT void Vcontrol_unit___024root___ico_sequent__TOP__0(Vcontrol_unit__
             }
             if ((1U & (~ (IData)(vlSelfRef.control_unit__DOT__current_state)))) {
                 control_unit__DOT__reg_en_c = 1U;
-                control_unit__DOT__reg_alu_sel = (7U 
-                                                  & ((IData)(vlSelfRef.d_in) 
-                                                     >> 2U));
-                control_unit__DOT__reg_mux_sel = (7U 
-                                                  & ((IData)(vlSelfRef.d_in) 
-                                                     >> 0xaU));
+                if ((0U == (3U & (IData)(vlSelfRef.d_in)))) {
+                    control_unit__DOT__reg_alu_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 2U));
+                    control_unit__DOT__reg_mux_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 0xaU));
+                } else if ((1U == (3U & (IData)(vlSelfRef.d_in)))) {
+                    control_unit__DOT__reg_alu_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 2U));
+                    control_unit__DOT__reg_mux_sel = 8U;
+                } else {
+                    control_unit__DOT__reg_alu_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 2U));
+                    control_unit__DOT__reg_mux_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 0xaU));
+                }
+                if ((0U != (3U & (IData)(vlSelfRef.d_in)))) {
+                    if ((1U == (3U & (IData)(vlSelfRef.d_in)))) {
+                        vlSelfRef.control_unit__DOT__reg_imm_val 
+                            = ((0xff00U & ((- (IData)(
+                                                      (1U 
+                                                       & ((IData)(vlSelfRef.d_in) 
+                                                          >> 0xcU)))) 
+                                           << 8U)) 
+                               | (0xffU & ((IData)(vlSelfRef.d_in) 
+                                           >> 5U)));
+                    }
+                }
             }
         } else if ((1U & (IData)(vlSelfRef.control_unit__DOT__current_state))) {
             control_unit__DOT__reg_mux_sel = (7U & 
@@ -151,6 +177,7 @@ VL_INLINE_OPT void Vcontrol_unit___024root___ico_sequent__TOP__0(Vcontrol_unit__
     vlSelfRef.en_7 = control_unit__DOT__reg_en_7;
     vlSelfRef.alu_sel = control_unit__DOT__reg_alu_sel;
     vlSelfRef.mux_sel = control_unit__DOT__reg_mux_sel;
+    vlSelfRef.imm_val = vlSelfRef.control_unit__DOT__reg_imm_val;
 }
 
 void Vcontrol_unit___024root___eval_triggers__ico(Vcontrol_unit___024root* vlSelf);
@@ -300,12 +327,38 @@ VL_INLINE_OPT void Vcontrol_unit___024root___nba_sequent__TOP__0(Vcontrol_unit__
             }
             if ((1U & (~ (IData)(vlSelfRef.control_unit__DOT__current_state)))) {
                 control_unit__DOT__reg_en_c = 1U;
-                control_unit__DOT__reg_alu_sel = (7U 
-                                                  & ((IData)(vlSelfRef.d_in) 
-                                                     >> 2U));
-                control_unit__DOT__reg_mux_sel = (7U 
-                                                  & ((IData)(vlSelfRef.d_in) 
-                                                     >> 0xaU));
+                if ((0U == (3U & (IData)(vlSelfRef.d_in)))) {
+                    control_unit__DOT__reg_alu_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 2U));
+                    control_unit__DOT__reg_mux_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 0xaU));
+                } else if ((1U == (3U & (IData)(vlSelfRef.d_in)))) {
+                    control_unit__DOT__reg_alu_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 2U));
+                    control_unit__DOT__reg_mux_sel = 8U;
+                } else {
+                    control_unit__DOT__reg_alu_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 2U));
+                    control_unit__DOT__reg_mux_sel 
+                        = (7U & ((IData)(vlSelfRef.d_in) 
+                                 >> 0xaU));
+                }
+                if ((0U != (3U & (IData)(vlSelfRef.d_in)))) {
+                    if ((1U == (3U & (IData)(vlSelfRef.d_in)))) {
+                        vlSelfRef.control_unit__DOT__reg_imm_val 
+                            = ((0xff00U & ((- (IData)(
+                                                      (1U 
+                                                       & ((IData)(vlSelfRef.d_in) 
+                                                          >> 0xcU)))) 
+                                           << 8U)) 
+                               | (0xffU & ((IData)(vlSelfRef.d_in) 
+                                           >> 5U)));
+                    }
+                }
             }
         } else if ((1U & (IData)(vlSelfRef.control_unit__DOT__current_state))) {
             control_unit__DOT__reg_mux_sel = (7U & 
@@ -336,6 +389,7 @@ VL_INLINE_OPT void Vcontrol_unit___024root___nba_sequent__TOP__0(Vcontrol_unit__
     vlSelfRef.en_7 = control_unit__DOT__reg_en_7;
     vlSelfRef.alu_sel = control_unit__DOT__reg_alu_sel;
     vlSelfRef.mux_sel = control_unit__DOT__reg_mux_sel;
+    vlSelfRef.imm_val = vlSelfRef.control_unit__DOT__reg_imm_val;
 }
 
 void Vcontrol_unit___024root___eval_triggers__act(Vcontrol_unit___024root* vlSelf);

@@ -18,7 +18,11 @@ int main(int argc, char** argv) {
         uint8_t first_operand = (d_in >> 13) & 0x7;
         uint8_t second_operand = (d_in >> 10) & 0x7;
         uint8_t alu_selection = (d_in >> 2) & 0x7;
-        
+        uint8_t format_type = d_in & 0x3;
+
+        uint8_t immediate_val = (d_in >> 5) & 0xFF;
+        int16_t extended_imm_val = (immediate_val & 0x80) ? (0xFF00 | immediate_val) : immediate_val;
+
         dut->reset = 1;
         dut->run = 0;
         dut->d_in = d_in;
@@ -89,19 +93,34 @@ int main(int argc, char** argv) {
             test_passed = false;
             failed_tests++;
         }
-        
+
         if (dut->alu_sel != alu_selection) {
             std::cout << "Test " << test << " FAIL: Expected alu_sel = " << static_cast<int>(alu_selection)
                       << " in CALCULATE_STATE, Got alu_sel = " << static_cast<int>(dut->alu_sel) << std::endl;
             test_passed = false;
             failed_tests++;
         }
-        
-        if (dut->mux_sel != second_operand) {
-            std::cout << "Test " << test << " FAIL: Expected mux_sel = " << static_cast<int>(second_operand)
-                      << " in CALCULATE_STATE, Got mux_sel = " << static_cast<int>(dut->mux_sel) << std::endl;
-            test_passed = false;
-            failed_tests++;
+
+        if (format_type == 0x1) { // I_TYPE_INST
+            if (dut->mux_sel != 0x8) {
+                std::cout << "Test " << test << " FAIL: Expected mux_sel = 8 for I_TYPE_INST, Got mux_sel = " 
+                          << static_cast<int>(dut->mux_sel) << std::endl;
+                test_passed = false;
+                failed_tests++;
+            }
+            if (static_cast<int16_t>(dut->imm_val) != extended_imm_val) {
+                std::cout << "Test " << test << " FAIL: Expected imm_val = " << extended_imm_val 
+                        << " for I_TYPE_INST, Got imm_val = " << static_cast<int16_t>(dut->imm_val) << std::endl;
+                test_passed = false;
+                failed_tests++;
+            }
+        } else { // R_TYPE_INST
+            if (dut->mux_sel != second_operand) {
+                std::cout << "Test " << test << " FAIL: Expected mux_sel = " << static_cast<int>(second_operand)
+                          << " in CALCULATE_STATE, Got mux_sel = " << static_cast<int>(dut->mux_sel) << std::endl;
+                test_passed = false;
+                failed_tests++;
+            }
         }
         
         // Clock to move to STORE_STATE

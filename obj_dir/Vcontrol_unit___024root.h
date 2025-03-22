@@ -38,6 +38,8 @@ class alignas(VL_CACHE_LINE_BYTES) Vcontrol_unit___024root final : public Verila
     CData/*0:0*/ __Vtrigprevexpr___TOP__reset__0;
     CData/*0:0*/ __VactContinue;
     VL_IN16(d_in,15,0);
+    VL_OUT16(imm_val,15,0);
+    SData/*15:0*/ control_unit__DOT__reg_imm_val;
     IData/*31:0*/ __VactIterCount;
     VlTriggerVec<1> __VstlTriggered;
     VlTriggerVec<1> __VicoTriggered;

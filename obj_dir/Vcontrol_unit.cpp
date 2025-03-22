@@ -27,6 +27,7 @@ Vcontrol_unit::Vcontrol_unit(VerilatedContext* _vcontextp__, const char* _vcname
     , alu_sel{vlSymsp->TOP.alu_sel}
     , mux_sel{vlSymsp->TOP.mux_sel}
     , d_in{vlSymsp->TOP.d_in}
+    , imm_val{vlSymsp->TOP.imm_val}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context

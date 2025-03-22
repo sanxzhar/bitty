@@ -46,6 +46,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vcontrol_unit VL_NOT_FINAL : public Verilated
     VL_OUT8(&alu_sel,2,0);
     VL_OUT8(&mux_sel,3,0);
     VL_IN16(&d_in,15,0);
+    VL_OUT16(&imm_val,15,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.

@@ -22,6 +22,7 @@ module bitty_core (
     wire                    control_unit_to_alu_mode;
     wire [3:0]              control_unit_to_alu_sel;
     wire [3:0]              control_unit_to_mux_sel;
+    wire [15:0]             control_unit_to_mux_imm_val;
 
     wire [15:0]             reg_c_to_regs;
     wire [15:0]             reg0_to_mux;
@@ -130,7 +131,8 @@ module bitty_core (
         .en_7(en_7),
         .en_i(en_i),
         .alu_sel(control_unit_to_alu_sel),
-        .mux_sel(control_unit_to_mux_sel)
+        .mux_sel(control_unit_to_mux_sel),
+        .imm_val(control_unit_to_mux_imm_val)
     );
 
     mux Mux(
@@ -143,7 +145,7 @@ module bitty_core (
         .reg_5(reg5_to_mux),
         .reg_6(reg6_to_mux),
         .reg_7(reg7_to_mux),
-        .reg_8(16'b0),
+        .reg_8(control_unit_to_mux_imm_val),
         .reg_9(16'b0),
         .out(mux_out)
     );
