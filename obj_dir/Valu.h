@@ -5,19 +5,19 @@
 // The class here is then constructed to instantiate the design.
 // See the Verilator manual for examples.
 
-#ifndef VERILATED_VCONTROL_UNIT_H_
-#define VERILATED_VCONTROL_UNIT_H_  // guard
+#ifndef VERILATED_VALU_H_
+#define VERILATED_VALU_H_  // guard
 
 #include "verilated.h"
 
-class Vcontrol_unit__Syms;
-class Vcontrol_unit___024root;
+class Valu__Syms;
+class Valu___024root;
 
 // This class is the main interface to the Verilated model
-class alignas(VL_CACHE_LINE_BYTES) Vcontrol_unit VL_NOT_FINAL : public VerilatedModel {
+class alignas(VL_CACHE_LINE_BYTES) Valu VL_NOT_FINAL : public VerilatedModel {
   private:
     // Symbol table holding complete model state (owned by this class)
-    Vcontrol_unit__Syms* const vlSymsp;
+    Valu__Syms* const vlSymsp;
 
   public:
 
@@ -28,25 +28,10 @@ class alignas(VL_CACHE_LINE_BYTES) Vcontrol_unit VL_NOT_FINAL : public Verilated
     // PORTS
     // The application code writes and reads these signals to
     // propagate new values into/out from the Verilated model.
-    VL_IN8(&clk,0,0);
-    VL_IN8(&reset,0,0);
-    VL_IN8(&run,0,0);
-    VL_OUT8(&done,0,0);
-    VL_OUT8(&en_s,0,0);
-    VL_OUT8(&en_c,0,0);
-    VL_OUT8(&en_0,0,0);
-    VL_OUT8(&en_1,0,0);
-    VL_OUT8(&en_2,0,0);
-    VL_OUT8(&en_3,0,0);
-    VL_OUT8(&en_4,0,0);
-    VL_OUT8(&en_5,0,0);
-    VL_OUT8(&en_6,0,0);
-    VL_OUT8(&en_7,0,0);
-    VL_OUT8(&en_i,0,0);
-    VL_OUT8(&alu_sel,2,0);
-    VL_OUT8(&mux_sel,3,0);
-    VL_IN16(&d_in,15,0);
-    VL_OUT16(&imm_val,15,0);
+    VL_IN8(&sel,2,0);
+    VL_IN16(&in_a,15,0);
+    VL_IN16(&in_b,15,0);
+    VL_OUT16(&out,15,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
@@ -54,19 +39,19 @@ class alignas(VL_CACHE_LINE_BYTES) Vcontrol_unit VL_NOT_FINAL : public Verilated
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
-    Vcontrol_unit___024root* const rootp;
+    Valu___024root* const rootp;
 
     // CONSTRUCTORS
     /// Construct the model; called by application code
     /// If contextp is null, then the model will use the default global context
     /// If name is "", then makes a wrapper with a
     /// single model invisible with respect to DPI scope names.
-    explicit Vcontrol_unit(VerilatedContext* contextp, const char* name = "TOP");
-    explicit Vcontrol_unit(const char* name = "TOP");
+    explicit Valu(VerilatedContext* contextp, const char* name = "TOP");
+    explicit Valu(const char* name = "TOP");
     /// Destroy the model; called (often implicitly) by application code
-    virtual ~Vcontrol_unit();
+    virtual ~Valu();
   private:
-    VL_UNCOPYABLE(Vcontrol_unit);  ///< Copying not allowed
+    VL_UNCOPYABLE(Valu);  ///< Copying not allowed
 
   public:
     // API METHODS

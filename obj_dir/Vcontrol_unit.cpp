@@ -13,7 +13,6 @@ Vcontrol_unit::Vcontrol_unit(VerilatedContext* _vcontextp__, const char* _vcname
     , reset{vlSymsp->TOP.reset}
     , run{vlSymsp->TOP.run}
     , done{vlSymsp->TOP.done}
-    , mode{vlSymsp->TOP.mode}
     , en_s{vlSymsp->TOP.en_s}
     , en_c{vlSymsp->TOP.en_c}
     , en_0{vlSymsp->TOP.en_0}
@@ -28,6 +27,7 @@ Vcontrol_unit::Vcontrol_unit(VerilatedContext* _vcontextp__, const char* _vcname
     , alu_sel{vlSymsp->TOP.alu_sel}
     , mux_sel{vlSymsp->TOP.mux_sel}
     , d_in{vlSymsp->TOP.d_in}
+    , imm_val{vlSymsp->TOP.imm_val}
     , rootp{&(vlSymsp->TOP)}
 {
     // Register model with the context
