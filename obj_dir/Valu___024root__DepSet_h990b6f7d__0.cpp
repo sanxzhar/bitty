@@ -31,9 +31,13 @@ VL_INLINE_OPT void Valu___024root___ico_sequent__TOP__0(Valu___024root* vlSelf) 
                                             (((IData)(vlSelfRef.in_a) 
                                               > (IData)(vlSelfRef.in_b))
                                               ? 1U : 2U))
-                                         : VL_SHIFTR_III(16,16,16, (IData)(vlSelfRef.in_a), (IData)(vlSelfRef.in_b)))
+                                         : VL_SHIFTR_III(16,16,32, (IData)(vlSelfRef.in_a), 
+                                                         (0xfU 
+                                                          & (IData)(vlSelfRef.in_b))))
                                      : ((1U & (IData)(vlSelfRef.sel))
-                                         ? VL_SHIFTL_III(16,16,16, (IData)(vlSelfRef.in_a), (IData)(vlSelfRef.in_b))
+                                         ? VL_SHIFTL_III(16,16,32, (IData)(vlSelfRef.in_a), 
+                                                         (0xfU 
+                                                          & (IData)(vlSelfRef.in_b)))
                                          : ((IData)(vlSelfRef.in_a) 
                                             ^ (IData)(vlSelfRef.in_b))))
                                  : ((2U & (IData)(vlSelfRef.sel))

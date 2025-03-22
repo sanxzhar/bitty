@@ -29,8 +29,8 @@ int main(int argc, char **argv) {
                 case 0x2: expected_result = in_a & in_b; break;
                 case 0x3: expected_result = in_a | in_b; break;
                 case 0x4: expected_result = in_a ^ in_b; break;
-                case 0x5: expected_result = in_a << in_b; break;
-                case 0x6: expected_result = in_a >> in_b; break;
+                case 0x5: expected_result = in_a << in_b % 16; break;
+                case 0x6: expected_result = in_a >> in_b % 16; break;
                 case 0x7: expected_result = (in_a == in_b) ? 0 : (in_a > in_b) ? 1 : 2;
             }
 

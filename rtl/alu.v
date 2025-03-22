@@ -21,9 +21,9 @@ module alu(
             3'b100:
                 temp_out = in_a ^ in_b;
             3'b101:
-                temp_out = in_a << in_b;
+                temp_out = in_a << in_b % 16;
             3'b110:
-                temp_out = in_a >> in_b;
+                temp_out = in_a >> in_b % 16;
             3'b111: begin
                 if(in_a == in_b)
                     temp_out = 16'b0;
