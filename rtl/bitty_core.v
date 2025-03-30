@@ -3,7 +3,16 @@ module bitty_core (
     input  wire             reset,
     input  wire             run,
     input  wire [15:0]      instraction,
-    output wire             done
+    output wire             done,
+    // for debug purposes
+    output wire [15:0]      reg0_to_mux,
+    output wire [15:0]      reg1_to_mux,
+    output wire [15:0]      reg2_to_mux,
+    output wire [15:0]      reg3_to_mux,
+    output wire [15:0]      reg4_to_mux,
+    output wire [15:0]      reg5_to_mux,
+    output wire [15:0]      reg6_to_mux,
+    output wire [15:0]      reg7_to_mux
 );
 
     wire                    en_s;
@@ -19,25 +28,22 @@ module bitty_core (
     wire                    en_i;
 
     wire [15:0]             reg_inst_to_control_unit;
-    wire                    control_unit_to_alu_mode;
-    wire [3:0]              control_unit_to_alu_sel;
+    wire [2:0]              control_unit_to_alu_sel;
     wire [3:0]              control_unit_to_mux_sel;
     wire [15:0]             control_unit_to_mux_imm_val;
 
     wire [15:0]             reg_c_to_regs;
-    wire [15:0]             reg0_to_mux;
-    wire [15:0]             reg1_to_mux;
-    wire [15:0]             reg2_to_mux;
-    wire [15:0]             reg3_to_mux;
-    wire [15:0]             reg4_to_mux;
-    wire [15:0]             reg5_to_mux;
-    wire [15:0]             reg6_to_mux;
-    wire [15:0]             reg7_to_mux;
+    // wire [15:0]             reg0_to_mux;
+    // wire [15:0]             reg1_to_mux;
+    // wire [15:0]             reg2_to_mux;
+    // wire [15:0]             reg3_to_mux;
+    // wire [15:0]             reg4_to_mux;
+    // wire [15:0]             reg5_to_mux;
+    // wire [15:0]             reg6_to_mux;
+    // wire [15:0]             reg7_to_mux;
     wire [15:0]             mux_out;
 
     wire [15:0]             reg_s_to_alu;
-    wire                    alu_carry_out;
-    wire                    alu_compare;
     wire [15:0]             alu_to_reg_c;
 
     register RegInst(
@@ -118,7 +124,6 @@ module bitty_core (
         .run(run),
         .d_in(reg_inst_to_control_unit),
         .done(done),
-        .mode(control_unit_to_alu_mode),
         .en_s(en_s),
         .en_c(en_c),
         .en_0(en_0),
@@ -159,14 +164,10 @@ module bitty_core (
     );
 
     alu Alu(
-        .carry_in(0),
         .in_a(reg_s_to_alu),
         .in_b(mux_out),
-        .select(control_unit_to_alu_sel),
-        .mode(control_unit_to_alu_mode),
-        .carry_out(alu_carry_out),
-        .compare(alu_compare),
-        .alu_out(alu_to_reg_c)
+        .sel(control_unit_to_alu_sel),
+        .out(alu_to_reg_c)
     );
 
     register RegC(

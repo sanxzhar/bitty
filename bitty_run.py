@@ -17,7 +17,7 @@ HELP_MSG_CLEAN_SIMULATION = "Clean simulation. Remove all Verilator generated fi
 # The name of the module must match the name of the verilog module.
 # Each of these modules need to have test bench written in C++.
 MODULES = []
-MODULES.append("control_unit")
+MODULES.append("bitty_core")
 
 # Linux commands invoked within this script.
 # Verilator command to generate C++ and Makefiles.
