@@ -9,9 +9,13 @@
 #define VERILATED_VBITTY_CORE_H_  // guard
 
 #include "verilated.h"
+#include "svdpi.h"
 
 class Vbitty_core__Syms;
 class Vbitty_core___024root;
+class VerilatedVcdC;
+class Vbitty_core___024unit;
+
 
 // This class is the main interface to the Verilated model
 class alignas(VL_CACHE_LINE_BYTES) Vbitty_core VL_NOT_FINAL : public VerilatedModel {
@@ -23,7 +27,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vbitty_core VL_NOT_FINAL : public VerilatedMo
 
     // CONSTEXPR CAPABILITIES
     // Verilated with --trace?
-    static constexpr bool traceCapable = false;
+    static constexpr bool traceCapable = true;
 
     // PORTS
     // The application code writes and reads these signals to
@@ -32,19 +36,12 @@ class alignas(VL_CACHE_LINE_BYTES) Vbitty_core VL_NOT_FINAL : public VerilatedMo
     VL_IN8(&reset,0,0);
     VL_IN8(&run,0,0);
     VL_OUT8(&done,0,0);
-    VL_IN16(&instraction,15,0);
-    VL_OUT16(&reg0_to_mux,15,0);
-    VL_OUT16(&reg1_to_mux,15,0);
-    VL_OUT16(&reg2_to_mux,15,0);
-    VL_OUT16(&reg3_to_mux,15,0);
-    VL_OUT16(&reg4_to_mux,15,0);
-    VL_OUT16(&reg5_to_mux,15,0);
-    VL_OUT16(&reg6_to_mux,15,0);
-    VL_OUT16(&reg7_to_mux,15,0);
+    VL_IN16(&instruction,15,0);
 
     // CELLS
     // Public to allow access to /* verilator public */ items.
     // Otherwise the application code can consider these internals.
+    Vbitty_core___024unit* const __PVT____024unit;
 
     // Root instance pointer to allow access to model internals,
     // including inlined /* verilator public_flat_* */ items.
@@ -92,6 +89,7 @@ class alignas(VL_CACHE_LINE_BYTES) Vbitty_core VL_NOT_FINAL : public VerilatedMo
     /// Re-init after cloning the model at the process level (e.g. fork in Linux)
     /// Re-allocate necessary resources. Called after cloning.
     void atClone() const;
+    std::unique_ptr<VerilatedTraceConfig> traceConfig() const override final;
   private:
     // Internal functions - trace registration
     void traceBaseModel(VerilatedTraceBaseC* tfp, int levels, int options);

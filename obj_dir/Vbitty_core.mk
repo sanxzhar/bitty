@@ -43,12 +43,18 @@ VM_USER_LDLIBS = \
 
 # User .cpp files (from .cpp's on Verilator command line)
 VM_USER_CLASSES = \
-	bitty_core_tb \
+	bitty_core_tb_with_dpi \
+	bitty_dpi \
+	bitty_emu \
+	bitty_inst_generator \
 
 # User .cpp directories (from .cpp's on Verilator command line)
 VM_USER_DIR = \
 	.. \
 	../test/bitty_core \
+	../testing_tools \
+	../testing_tools/emulator \
+	../testing_tools/generator \
 
 
 ### Default rules...
@@ -60,7 +66,13 @@ include $(VERILATOR_ROOT)/include/verilated.mk
 ### Executable rules... (from --exe)
 VPATH += $(VM_USER_DIR)
 
-bitty_core_tb.o: ./test/bitty_core/bitty_core_tb.cpp 
+bitty_core_tb_with_dpi.o: ./test/bitty_core/bitty_core_tb_with_dpi.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+bitty_dpi.o: ./testing_tools/bitty_dpi.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+bitty_emu.o: ./testing_tools/emulator/bitty_emu.cpp 
+	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
+bitty_inst_generator.o: ./testing_tools/generator/bitty_inst_generator.cpp 
 	$(OBJCACHE) $(CXX) $(CXXFLAGS) $(CPPFLAGS) $(OPT_FAST)  -c -o $@ $<
 
 ### Link rules... (from --exe)

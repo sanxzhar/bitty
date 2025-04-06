@@ -10,28 +10,15 @@ module alu(
 
     always @(*) begin
         case(sel)
-            3'b000:
-                temp_out = in_a + in_b;
-            3'b001:
-                temp_out = in_a - in_b;
-            3'b010:
-                temp_out = in_a & in_b;
-            3'b011:
-                temp_out = in_a | in_b;
-            3'b100:
-                temp_out = in_a ^ in_b;
-            3'b101:
-                temp_out = in_a << in_b % 16;
-            3'b110:
-                temp_out = in_a >> in_b % 16;
-            3'b111: begin
-                if(in_a == in_b)
-                    temp_out = 16'b0;
-                else if(in_a > in_b)
-                    temp_out = 16'b1;
-                else
-                    temp_out = 16'b10;
-            end
+            3'b000: temp_out = in_a + in_b;
+            3'b001: temp_out = in_a - in_b;
+            3'b010: temp_out = in_a & in_b;
+            3'b011: temp_out = in_a | in_b;
+            3'b100: temp_out = in_a ^ in_b;
+            3'b101: temp_out = in_a << (in_b % 16);
+            3'b110: temp_out = in_a >> (in_b % 16);
+            3'b111: temp_out = (in_a == in_b) ? 16'd0 : ((in_a > in_b) ? 16'd1 : 16'd2);
+            default: temp_out = 16'h0000;
         endcase
     end
 

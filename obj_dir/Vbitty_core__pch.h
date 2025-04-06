@@ -19,6 +19,7 @@
 
 
 #include "verilated.h"
+#include "verilated_dpi.h"
 
 #include "Vbitty_core__Syms.h"
 #include "Vbitty_core.h"

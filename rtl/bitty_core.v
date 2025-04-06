@@ -2,17 +2,8 @@ module bitty_core (
     input  wire             clk,
     input  wire             reset,
     input  wire             run,
-    input  wire [15:0]      instraction,
-    output wire             done,
-    // for debug purposes
-    output wire [15:0]      reg0_to_mux,
-    output wire [15:0]      reg1_to_mux,
-    output wire [15:0]      reg2_to_mux,
-    output wire [15:0]      reg3_to_mux,
-    output wire [15:0]      reg4_to_mux,
-    output wire [15:0]      reg5_to_mux,
-    output wire [15:0]      reg6_to_mux,
-    output wire [15:0]      reg7_to_mux
+    input  wire [15:0]      instruction,
+    output wire             done
 );
 
     wire                    en_s;
@@ -33,14 +24,14 @@ module bitty_core (
     wire [15:0]             control_unit_to_mux_imm_val;
 
     wire [15:0]             reg_c_to_regs;
-    // wire [15:0]             reg0_to_mux;
-    // wire [15:0]             reg1_to_mux;
-    // wire [15:0]             reg2_to_mux;
-    // wire [15:0]             reg3_to_mux;
-    // wire [15:0]             reg4_to_mux;
-    // wire [15:0]             reg5_to_mux;
-    // wire [15:0]             reg6_to_mux;
-    // wire [15:0]             reg7_to_mux;
+    wire [15:0]             reg0_to_mux;
+    wire [15:0]             reg1_to_mux;
+    wire [15:0]             reg2_to_mux;
+    wire [15:0]             reg3_to_mux;
+    wire [15:0]             reg4_to_mux;
+    wire [15:0]             reg5_to_mux;
+    wire [15:0]             reg6_to_mux;
+    wire [15:0]             reg7_to_mux;
     wire [15:0]             mux_out;
 
     wire [15:0]             reg_s_to_alu;
@@ -50,7 +41,7 @@ module bitty_core (
         .clk(clk),
         .reset(reset),
         .en_i(en_i),
-        .d_in(instraction),
+        .d_in(instruction),
         .d_out(reg_inst_to_control_unit)
     );
 
@@ -176,6 +167,20 @@ module bitty_core (
         .en_i(en_c),
         .d_in(alu_to_reg_c),
         .d_out(reg_c_to_regs)
+    );
+
+    bitty_monitor Monitor(
+        .clk(clk),
+        .done(done),
+        .instruction(reg_inst_to_control_unit),
+        .reg0(reg0_to_mux),
+        .reg1(reg1_to_mux),
+        .reg2(reg2_to_mux),
+        .reg3(reg3_to_mux),
+        .reg4(reg4_to_mux),
+        .reg5(reg5_to_mux),
+        .reg6(reg6_to_mux),
+        .reg7(reg7_to_mux)
     );
 
 endmodule

@@ -60,7 +60,7 @@ module control_unit(
     parameter R_TYPE_INST       = 2'b00;
     parameter I_TYPE_INST       = 2'b01;
 
-    reg [1:0] current_state = INITIAL_STATE;
+    reg [1:0] current_state, next_state;
 
     wire [1:0] inst_format = d_in[1:0];
     wire [2:0] alu_selection = d_in[4:2];
@@ -76,14 +76,18 @@ module control_unit(
         if(reset)
             current_state <= INITIAL_STATE;
         else if(run) begin
-            case(current_state)
-                INITIAL_STATE:   current_state <= LOAD_STATE;
-                LOAD_STATE:      current_state <= CALCULATE_STATE;
-                CALCULATE_STATE: current_state <= STORE_STATE;
-                STORE_STATE:     current_state <= INITIAL_STATE;
-                default:         current_state <= INITIAL_STATE;
-            endcase
+            current_state <= next_state;
         end
+    end
+
+    always @(*) begin
+        case(current_state)
+            INITIAL_STATE:   next_state = LOAD_STATE;
+            LOAD_STATE:      next_state = CALCULATE_STATE;
+            CALCULATE_STATE: next_state = STORE_STATE;
+            STORE_STATE:     next_state = INITIAL_STATE;
+            default:         next_state = INITIAL_STATE;
+        endcase
     end
 
     always @(*) begin
