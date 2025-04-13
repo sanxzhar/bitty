@@ -17,11 +17,11 @@ HELP_MSG_CLEAN_SIMULATION = "Clean simulation. Remove all Verilator generated fi
 # The name of the module must match the name of the verilog module.
 # Each of these modules need to have test bench written in C++.
 MODULES = []
-MODULES.append("bitty_core")
+MODULES.append("top")
 
 # Linux commands invoked within this script.
 # Verilator command to generate C++ and Makefiles.
-VERILATE_COMMAND = "verilator --assert -I./rtl --Wall {0} --cc ./rtl/{1}.v --exe --trace ./test/{1}/{1}_tb_with_dpi.cpp ./testing_tools/bitty_dpi.cpp ./testing_tools/emulator/bitty_emu.cpp ./testing_tools/generator/bitty_inst_generator.cpp"
+VERILATE_COMMAND = "verilator --assert -I./rtl --Wall {0} --cc ./rtl/{1}.v --exe --trace ./test/{1}/{1}_tb.cpp ./testing_tools/bitty_dpi.cpp ./testing_tools/emulator/bitty_emu.cpp ./testing_tools/generator/bitty_inst_generator.cpp"
 # VERILATE_COMMAND = "verilator --assert -I./rtl --Wall {0} --cc ./rtl/{1}.v --exe ./test/{1}/{1}_tb_with_dpi.cpp ./testing_tools/bitty_dpi.cpp"
 MAKE_COMMAND = "make -C obj_dir/ -f V{0}.mk V{0}"
 CLEAN_COMMAND = "rm -rf ./obj_dir"

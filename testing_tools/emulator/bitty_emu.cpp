@@ -1,6 +1,7 @@
 #include "bitty_emu.h"
+#include <fstream>
 
-BittyEmulator::BittyEmulator() : registers_(8, 0)
+BittyEmulator::BittyEmulator() : registers_(8, 0), memory_(256, 0), pc_(0)
 {
 }
 
@@ -44,4 +45,45 @@ uint16_t BittyEmulator::GetRegisterValue(uint16_t reg_num)
         return registers_[reg_num];
     }
     return 0;
+}
+
+void BittyEmulator::SetRegisterValue(uint16_t reg_num, uint16_t value)
+{
+    if (reg_num < registers_.size()) {
+        registers_[reg_num] = value;
+    }
+}
+
+bool BittyEmulator::LoadMemoryFromFile(const std::string& filename, uint16_t start_address)
+{
+    std::ifstream file(filename);
+
+    if (!file.is_open()) {
+        std::cerr << "Failed to open instruction file: " << filename << std::endl;
+        return false;
+    }
+
+    std::string line;
+    uint16_t address = start_address;
+
+    while (std::getline(file, line)) {
+        if (line.empty()) continue;
+
+        line.erase(remove_if(line.begin(), line.end(), isspace), line.end());
+
+        uint16_t instruction = std::stoul(line, nullptr, 16);
+        if (address >= memory_.size()) break;
+        memory_[address++] = instruction;
+    }
+
+    pc_ = start_address;
+    return true;
+}
+
+uint16_t BittyEmulator::Step()
+{
+    if (pc_ >= memory_.size()) return 0;
+    uint16_t inst = memory_[pc_++];
+    Evaluate(inst);
+    return inst;
 }
