@@ -2,8 +2,8 @@ module top_register(
     input  wire                  clk,
     input  wire                  reset,
     input  wire                  en_i,
-    input  wire [7:0]           d_in,
-    output wire [7:0]           d_out
+    input  wire [7:0]            d_in,
+    output wire [7:0]            d_out
 );
 
     reg [7:0] reg_d_out;
