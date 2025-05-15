@@ -1,41 +1,44 @@
 module bitty_core (
-    input  wire             clk,
-    input  wire             reset,
-    input  wire             run,
-    input  wire [15:0]      instruction,
-    output wire             done
+    input  wire              clk,
+    input  wire              reset,
+    input  wire              run,
+    input  wire [15:0]       instruction,
+    output wire              done,
+    output wire [15:0]       last_alu_result
 );
 
-    wire                    en_s;
-    wire                    en_c;
-    wire                    en_0;
-    wire                    en_1;
-    wire                    en_2;
-    wire                    en_3;
-    wire                    en_4;
-    wire                    en_5;
-    wire                    en_6;
-    wire                    en_7;
-    wire                    en_i;
+    wire                     en_s;
+    wire                     en_c;
+    wire                     en_0;
+    wire                     en_1;
+    wire                     en_2;
+    wire                     en_3;
+    wire                     en_4;
+    wire                     en_5;
+    wire                     en_6;
+    wire                     en_7;
+    wire                     en_i;
 
-    wire [15:0]             reg_inst_to_control_unit;
-    wire [2:0]              control_unit_to_alu_sel;
-    wire [3:0]              control_unit_to_mux_sel;
-    wire [15:0]             control_unit_to_mux_imm_val;
+    wire [15:0]              reg_inst_to_control_unit;
+    wire [2:0]               control_unit_to_alu_sel;
+    wire [3:0]               control_unit_to_mux_sel;
+    wire [15:0]              control_unit_to_mux_imm_val;
 
-    wire [15:0]             reg_c_to_regs;
-    wire [15:0]             reg0_to_mux;
-    wire [15:0]             reg1_to_mux;
-    wire [15:0]             reg2_to_mux;
-    wire [15:0]             reg3_to_mux;
-    wire [15:0]             reg4_to_mux;
-    wire [15:0]             reg5_to_mux;
-    wire [15:0]             reg6_to_mux;
-    wire [15:0]             reg7_to_mux;
-    wire [15:0]             mux_out;
+    wire [15:0]              reg_c_to_regs;
+    wire [15:0]              reg0_to_mux;
+    wire [15:0]              reg1_to_mux;
+    wire [15:0]              reg2_to_mux;
+    wire [15:0]              reg3_to_mux;
+    wire [15:0]              reg4_to_mux;
+    wire [15:0]              reg5_to_mux;
+    wire [15:0]              reg6_to_mux;
+    wire [15:0]              reg7_to_mux;
+    wire [15:0]              mux_out;
 
-    wire [15:0]             reg_s_to_alu;
-    wire [15:0]             alu_to_reg_c;
+    wire [15:0]              reg_s_to_alu;
+    wire [15:0]              alu_to_reg_c;
+
+    assign last_alu_result = reg_c_to_regs;
 
     register RegInst(
         .clk(clk),
