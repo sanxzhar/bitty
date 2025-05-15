@@ -9,6 +9,13 @@ extern "C" void compare_results(
 ) {
     static BittyEmulator emulator;
 
+
+    static bool initialized = false;
+    if (!initialized) {
+        emulator.LoadMemoryFromFile("/Users/sanzhar/coding/mdv/bitty/testing_tools/generator/program.txt");
+        initialized = true;
+    }
+
     uint16_t inst = emulator.Step();
 
     uint16_t verilog_registers[8] = {
@@ -50,16 +57,6 @@ extern "C" void compare_results(
                 printf("%d", (expected >> bit) & 1);
             printf("\n");
         }
-    }
-
-    static bool initialized = false;
-    if (!initialized) {
-        emulator.LoadMemoryFromFile("/Users/sanzhar/coding/mdv/bitty/testing_tools/generator/program.txt");
-        initialized = true;
-    }
-
-    for (int i = 0; i < 8; ++i) {
-        emulator.SetRegisterValue(i, verilog_registers[i]);
     }
 
 }

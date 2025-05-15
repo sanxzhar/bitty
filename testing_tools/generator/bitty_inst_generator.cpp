@@ -8,21 +8,32 @@ uint16_t BittyInstructionGenerator::Generate(){
 
     uint16_t instruction = 0x0000;
 
+    bool use_branch_instruction = (std::rand() % 3) == 2;
     bool use_immediate = (std::rand() % 2) == 1;
 
-    uint16_t format = use_immediate ? 0x01 : 0x00;
+    uint16_t format = use_branch_instruction ? 0b10 : use_immediate ? 0b01 : 0b00;     
     instruction = instruction | format;
+
+    if(use_branch_instruction){
+        uint16_t branch_condition = std::rand() % 3;
+        uint16_t branch_jump_addr = std::rand() % 256;
+
+        instruction = instruction | (branch_condition << 2);
+        instruction = instruction | (branch_jump_addr << 4);
+
+        return instruction;
+    }
 
     uint16_t alu_sel = std::rand() % 8;
     instruction = instruction | (alu_sel << 2);
 
-    if (use_immediate) {
+    if(use_immediate){
         uint16_t reg1 = std::rand() % 8;
         uint16_t imm_val = std::rand() % 256;
         
         instruction = instruction | (reg1 << 13);
         instruction = instruction | (imm_val << 5);
-    } else {
+    }else{
         uint16_t reg1 = std::rand() % 8;
         uint16_t reg2 = std::rand() % 8;
         

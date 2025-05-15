@@ -1,7 +1,7 @@
 #include "bitty_emu.h"
 #include <fstream>
 
-BittyEmulator::BittyEmulator() : registers_(8, 0), memory_(256, 0), pc_(0)
+BittyEmulator::BittyEmulator() : registers_(8, 0), memory_(256, 0), pc_(0), last_alu_result_(0)
 {
 }
 
@@ -35,7 +35,40 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
     }
 
     registers_[register_1] = result;
+    last_alu_result_ = result;
     return result;
+}
+
+void BittyEmulator::EvaluateBranchInstr(){
+    uint16_t inst = memory_[pc_];
+
+    if((inst & 0b11) != 0b10){
+        return;
+    }
+
+    pc_ = pc_ + 1;
+    uint8_t branch_condition = (inst >> 2) & 0b11;
+
+    if(branch_condition > 0b10){
+        return;
+    }
+
+    switch(branch_condition) {
+        case 0b00:
+            if (last_alu_result_ != 0) return;
+            break;
+        case 0b01:
+            if (last_alu_result_ != 1) return;
+            break;
+        case 0b10:
+            if (last_alu_result_ != 2) return;
+            break;
+    }
+
+    uint8_t branch_jump_addr = (inst >> 4) & 0b11111111;
+    pc_ = branch_jump_addr;
+
+    return;
 }
 
 uint16_t BittyEmulator::GetRegisterValue(uint16_t reg_num)
@@ -83,7 +116,16 @@ bool BittyEmulator::LoadMemoryFromFile(const std::string& filename, uint16_t sta
 uint16_t BittyEmulator::Step()
 {
     if (pc_ >= memory_.size()) return 0;
-    uint16_t inst = memory_[pc_++];
+
+    uint16_t inst = memory_[pc_];
     Evaluate(inst);
+    pc_ = pc_ + 1;
+
+    uint8_t next_inst_format_type = memory_[pc_] & 0b11;
+    while(next_inst_format_type == 0b10){
+        EvaluateBranchInstr(); // pc_ updated (incremented or jumped)
+        next_inst_format_type = memory_[pc_] & 0b11;
+    }
+
     return inst;
 }

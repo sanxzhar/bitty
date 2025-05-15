@@ -1,5 +1,4 @@
 module memory(
-    input  wire             clk,
     input  wire [7:0]       addr,
     output wire [15:0]      out
 );
@@ -13,8 +12,8 @@ module memory(
         $readmemh("/Users/sanzhar/coding/mdv/bitty/testing_tools/generator/program.txt", memory_cell);
     end
     
-    always @(posedge clk) begin
-        reg_out <= memory_cell[addr];
+    always @(*) begin
+        reg_out = memory_cell[addr];
     end
 
 endmodule
