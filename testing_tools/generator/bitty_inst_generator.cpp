@@ -8,15 +8,21 @@ uint16_t BittyInstructionGenerator::Generate(){
 
     uint16_t instruction = 0x0000;
 
-    bool use_branch_instruction = (std::rand() % 3) == 2;
-    bool use_immediate = (std::rand() % 2) == 1;
-
-    uint16_t format = use_branch_instruction ? 0b10 : use_immediate ? 0b01 : 0b00;     
+    // Randomly choose between branch, immediate, register-register, or memory operation
+    uint8_t instruction_type = std::rand() % 4;
+    uint16_t format;
+    
+    switch(instruction_type) {
+        case 0: format = 0b00; break;  // register-register
+        case 1: format = 0b01; break;  // immediate
+        case 2: format = 0b10; break;  // branch
+        case 3: format = 0b11; break;  // memory operation
+    }
     instruction = instruction | format;
 
-    if(use_branch_instruction){
+    if(format == 0b10){
         uint16_t branch_condition = std::rand() % 3;
-        uint16_t branch_jump_addr = std::rand() % 256;
+        uint16_t branch_jump_addr = std::rand() % 65536;
 
         instruction = instruction | (branch_condition << 2);
         instruction = instruction | (branch_jump_addr << 4);
@@ -24,10 +30,23 @@ uint16_t BittyInstructionGenerator::Generate(){
         return instruction;
     }
 
+    if(format == 0b11) {
+        // Memory operation (load/store)
+        uint16_t reg1 = std::rand() % 8;
+        uint16_t reg2 = std::rand() % 8;
+        uint16_t load_store_bit = 0; // 0 for load, 1 for store (currently only implementing load)
+        
+        instruction = instruction | (reg1 << 13);
+        instruction = instruction | (reg2 << 10);
+        instruction = instruction | (load_store_bit << 2);
+        
+        return instruction;
+    }
+
     uint16_t alu_sel = std::rand() % 8;
     instruction = instruction | (alu_sel << 2);
 
-    if(use_immediate){
+    if(format == 0b01){
         uint16_t reg1 = std::rand() % 8;
         uint16_t imm_val = std::rand() % 256;
         

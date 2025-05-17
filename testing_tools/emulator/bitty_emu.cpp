@@ -1,7 +1,7 @@
 #include "bitty_emu.h"
 #include <fstream>
 
-BittyEmulator::BittyEmulator() : registers_(8, 0), memory_(256, 0), pc_(0), last_alu_result_(0)
+BittyEmulator::BittyEmulator() : registers_(8, 0), memory_(65535, 0), pc_(0), last_alu_result_(0)
 {
 }
 
@@ -13,6 +13,22 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
     uint8_t alu_select = (instruction >> 2) & 0x7;
     
     uint8_t format_type = instruction & 0x3;
+
+    if (format_type == 0b11) {
+        uint8_t load_store_bit = (instruction >> 2) & 0x1;
+        if (load_store_bit == 0 || load_store_bit == 1) {
+            uint16_t mem_address = registers_[register_2];
+            if(mem_address > memory_.size()){
+                return 0;
+            }
+
+            registers_[register_1] = memory_[mem_address];
+            last_alu_result_ = registers_[register_1];
+            return registers_[register_1];
+            
+        }
+        return 0;
+    }
 
     uint8_t immediate_val = (instruction >> 5) & 0xFF;
     int16_t extended_imm_val = (immediate_val & 0x80) ? (0xFF00 | immediate_val) : immediate_val;
@@ -65,7 +81,7 @@ void BittyEmulator::EvaluateBranchInstr(){
             break;
     }
 
-    uint8_t branch_jump_addr = (inst >> 4) & 0b11111111;
+    uint8_t branch_jump_addr = (inst >> 4) & 0b1111111111111111;
     pc_ = branch_jump_addr;
 
     return;

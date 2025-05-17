@@ -1,22 +1,29 @@
 module instr_fetch_unit(
-    input  wire             clk,
-    input  wire             reset,
-    input  wire             done,
-    input  wire             run,
-    input  wire [15:0]      last_alu_result,
-    output wire             run_core,
-    output wire [15:0]      instr
+    input  wire                     clk,
+    input  wire                     reset,
+    input  wire                     done,
+    input  wire                     run,
+    input  wire                     en_memory_inst,
+    input  wire [15:0]              last_alu_result,
+    input  wire [15:0]              memory_addr,
+    output wire                     run_core,
+    output wire [15:0]              instr
 );
-    wire                    en_pc;
-    wire [7:0]              updated_pc;
-    wire [7:0]              current_pc;
-    wire [15:0]             memory_out;
+    wire                            en_write;
+    wire                            en_pc;
+    wire [15:0]                     updated_pc;
+    wire [15:0]                     current_pc;
+    wire [15:0]                     memory_out;
+    wire [15:0]                     mux_to_memory;
 
-    reg  [15:0]             instr_reg;
+    reg  [15:0]                     reg_instr;
 
-    assign instr          = instr_reg;
+    assign instr                  = reg_instr;
+    assign en_write               = 1'b0;
 
-    top_register PC(
+    localparam NOP_INSTRUCTION    = 16'b0000000000000000;
+
+    register PC(
         .clk(clk),
         .reset(reset),
         .en_i(en_pc),
@@ -25,7 +32,7 @@ module instr_fetch_unit(
     );
 
     branch_logic BranchLogic(
-        .instruction_from_memory(memory_out),
+        .instruction_from_memory(en_memory_inst ? NOP_INSTRUCTION : memory_out),
         .current_pc(current_pc),
         .last_alu_result(last_alu_result),
         .instr_done(done),
@@ -35,16 +42,25 @@ module instr_fetch_unit(
         .run_core(run_core)
     );
 
+    two_to_one_mux Mux(
+        .sel(en_memory_inst),
+        .reg_0(current_pc),
+        .reg_1(memory_addr),
+        .out(mux_to_memory)
+    );
+
     memory Memory(
-        .addr(current_pc),
+        .en_write(en_write),
+        .addr(mux_to_memory),
+        .data_in(mux_to_memory),
         .out(memory_out)
     );
 
     always @(*) begin
         if (reset)
-            instr_reg = 16'b0;
+            reg_instr = 16'b0;
         else
-            instr_reg = memory_out;
+            reg_instr = memory_out;
     end
 
 endmodule

@@ -15,6 +15,8 @@ module control_unit(
     output wire             en_6,
     output wire             en_7,
     output wire             en_i,
+    output wire             en_memory_inst,
+    output wire             en_memory_write, // write its logic a bit later
     output wire [2:0]       alu_sel,
     output wire [3:0]       mux_sel,
     output wire [15:0]      imm_val
@@ -32,25 +34,27 @@ module control_unit(
     reg              reg_en_6;
     reg              reg_en_7;
     reg              reg_en_i;
+    reg              reg_en_memory_inst;
     reg [2:0]        reg_alu_sel;
     reg [3:0]        reg_mux_sel;
     reg [15:0]       reg_imm_val;
 
-    assign done    = reg_done;
-    assign en_s    = reg_en_s;
-    assign en_c    = reg_en_c;
-    assign en_0    = reg_en_0;
-    assign en_1    = reg_en_1;
-    assign en_2    = reg_en_2;
-    assign en_3    = reg_en_3;
-    assign en_4    = reg_en_4;
-    assign en_5    = reg_en_5;
-    assign en_6    = reg_en_6;
-    assign en_7    = reg_en_7;
-    assign en_i    = reg_en_i;
-    assign alu_sel = reg_alu_sel;
-    assign mux_sel = reg_mux_sel;
-    assign imm_val = reg_imm_val;
+    assign done           = reg_done;
+    assign en_s           = reg_en_s;
+    assign en_c           = reg_en_c;
+    assign en_0           = reg_en_0;
+    assign en_1           = reg_en_1;
+    assign en_2           = reg_en_2;
+    assign en_3           = reg_en_3;
+    assign en_4           = reg_en_4;
+    assign en_5           = reg_en_5;
+    assign en_6           = reg_en_6;
+    assign en_7           = reg_en_7;
+    assign en_i           = reg_en_i;
+    assign en_memory_inst = reg_en_memory_inst;
+    assign alu_sel        = reg_alu_sel;
+    assign mux_sel        = reg_mux_sel;
+    assign imm_val        = reg_imm_val;
 
     parameter INITIAL_STATE     = 2'b00;
     parameter LOAD_STATE        = 2'b01;
@@ -59,6 +63,7 @@ module control_unit(
 
     parameter R_TYPE_INST       = 2'b00;
     parameter I_TYPE_INST       = 2'b01;
+    parameter M_TYPE_INST       = 2'b11;
 
     reg [1:0] current_state, next_state;
 
@@ -104,6 +109,7 @@ module control_unit(
         reg_en_6 = 1'b0;
         reg_en_7 = 1'b0;
         reg_en_i = 1'b0;
+        reg_en_memory_inst = 1'b0;
         reg_alu_sel = 3'b000;
         reg_mux_sel = 4'b0000;
 
@@ -113,7 +119,10 @@ module control_unit(
                     reg_en_i    = 1'b1;
                 end
                 LOAD_STATE: begin
-                    reg_mux_sel = {1'b0, first_operand};
+                    case(inst_format)
+                        M_TYPE_INST:        reg_mux_sel = {1'b0, second_operand};
+                        default:            reg_mux_sel = {1'b0, first_operand};
+                    endcase
                     reg_en_s    = 1'b1;
                 end
                 CALCULATE_STATE: begin
@@ -128,6 +137,12 @@ module control_unit(
                             reg_imm_val = {{8{immediate_val[7]}}, immediate_val};
                             reg_en_c    = 1'b1;
                             reg_alu_sel = alu_selection[2:0];
+                        end
+                        M_TYPE_INST: begin
+                            reg_en_memory_inst = 1'b1;
+                            reg_en_c           = 1'b1;
+                            // if st
+                            // reg_mux_sel 
                         end
                         default: begin
                             reg_mux_sel = {1'b0, second_operand};
@@ -162,6 +177,7 @@ module control_unit(
                     reg_en_6 = 1'b0;
                     reg_en_7 = 1'b0;
                     reg_en_i = 1'b0;
+                    reg_en_memory_inst = 1'b0;
                     reg_alu_sel = 3'b000;
                     reg_mux_sel = 4'b0000;
                 end

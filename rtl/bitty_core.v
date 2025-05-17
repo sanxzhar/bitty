@@ -4,7 +4,11 @@ module bitty_core (
     input  wire              run,
     input  wire [15:0]       instruction,
     output wire              done,
-    output wire [15:0]       last_alu_result
+    output wire              en_memory_inst,
+    output wire              en_memory_write,
+    output wire [15:0]       last_alu_result,
+    output wire [15:0]       memory_addr,
+    output wire [15:0]       data_to_memory
 );
 
     wire                     en_s;
@@ -36,9 +40,12 @@ module bitty_core (
     wire [15:0]              mux_out;
 
     wire [15:0]              reg_s_to_alu;
-    wire [15:0]              alu_to_reg_c;
+    wire [15:0]              mux_to_reg_c;
+    wire [15:0]              alu_to_reg_c_mux;
 
     assign last_alu_result = reg_c_to_regs;
+    assign memory_addr     = reg_s_to_alu;
+    assign data_to_memory  = mux_out;
 
     register RegInst(
         .clk(clk),
@@ -129,6 +136,8 @@ module bitty_core (
         .en_6(en_6),
         .en_7(en_7),
         .en_i(en_i),
+        .en_memory_inst(en_memory_inst),
+        .en_memory_write(en_memory_write),
         .alu_sel(control_unit_to_alu_sel),
         .mux_sel(control_unit_to_mux_sel),
         .imm_val(control_unit_to_mux_imm_val)
@@ -149,6 +158,13 @@ module bitty_core (
         .out(mux_out)
     );
 
+    two_to_one_mux MuxRegC(
+        .sel(en_memory_inst),
+        .reg_0(alu_to_reg_c_mux),
+        .reg_1(instruction),
+        .out(mux_to_reg_c)
+    );
+
     register RegS(
         .clk(clk),
         .reset(reset),
@@ -161,14 +177,14 @@ module bitty_core (
         .in_a(reg_s_to_alu),
         .in_b(mux_out),
         .sel(control_unit_to_alu_sel),
-        .out(alu_to_reg_c)
+        .out(alu_to_reg_c_mux)
     );
 
     register RegC(
         .clk(clk),
         .reset(reset),
         .en_i(en_c),
-        .d_in(alu_to_reg_c),
+        .d_in(mux_to_reg_c),
         .d_out(reg_c_to_regs)
     );
 
