@@ -16,7 +16,7 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
 
     if (format_type == 0b11) {
         uint8_t load_store_bit = (instruction >> 2) & 0x1;
-        if (load_store_bit == 0 || load_store_bit == 1) {
+        if (load_store_bit == 0) {
             uint16_t mem_address = registers_[register_2];
             if(mem_address > memory_.size()){
                 return 0;
@@ -25,7 +25,14 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
             registers_[register_1] = memory_[mem_address];
             last_alu_result_ = registers_[register_1];
             return registers_[register_1];
-            
+        }else{
+            uint16_t mem_address = registers_[register_2];
+            if(mem_address > memory_.size()){
+                return 0;
+            }
+
+            memory_[mem_address] = registers_[register_1];
+            return memory_[mem_address];
         }
         return 0;
     }

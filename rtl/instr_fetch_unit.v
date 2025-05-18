@@ -4,12 +4,13 @@ module instr_fetch_unit(
     input  wire                     done,
     input  wire                     run,
     input  wire                     en_memory_inst,
+    input  wire                     en_memory_write,
     input  wire [15:0]              last_alu_result,
     input  wire [15:0]              memory_addr,
+    input  wire [15:0]              data_to_memory,
     output wire                     run_core,
     output wire [15:0]              instr
 );
-    wire                            en_write;
     wire                            en_pc;
     wire [15:0]                     updated_pc;
     wire [15:0]                     current_pc;
@@ -19,7 +20,6 @@ module instr_fetch_unit(
     reg  [15:0]                     reg_instr;
 
     assign instr                  = reg_instr;
-    assign en_write               = 1'b0;
 
     localparam NOP_INSTRUCTION    = 16'b0000000000000000;
 
@@ -50,9 +50,9 @@ module instr_fetch_unit(
     );
 
     memory Memory(
-        .en_write(en_write),
+        .en_write(en_memory_write),
         .addr(mux_to_memory),
-        .data_in(mux_to_memory),
+        .data_in(data_to_memory),
         .out(memory_out)
     );
 

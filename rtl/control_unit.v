@@ -35,26 +35,28 @@ module control_unit(
     reg              reg_en_7;
     reg              reg_en_i;
     reg              reg_en_memory_inst;
+    reg              reg_en_memory_write;
     reg [2:0]        reg_alu_sel;
     reg [3:0]        reg_mux_sel;
     reg [15:0]       reg_imm_val;
 
-    assign done           = reg_done;
-    assign en_s           = reg_en_s;
-    assign en_c           = reg_en_c;
-    assign en_0           = reg_en_0;
-    assign en_1           = reg_en_1;
-    assign en_2           = reg_en_2;
-    assign en_3           = reg_en_3;
-    assign en_4           = reg_en_4;
-    assign en_5           = reg_en_5;
-    assign en_6           = reg_en_6;
-    assign en_7           = reg_en_7;
-    assign en_i           = reg_en_i;
-    assign en_memory_inst = reg_en_memory_inst;
-    assign alu_sel        = reg_alu_sel;
-    assign mux_sel        = reg_mux_sel;
-    assign imm_val        = reg_imm_val;
+    assign done             = reg_done;
+    assign en_s             = reg_en_s;
+    assign en_c             = reg_en_c;
+    assign en_0             = reg_en_0;
+    assign en_1             = reg_en_1;
+    assign en_2             = reg_en_2;
+    assign en_3             = reg_en_3;
+    assign en_4             = reg_en_4;
+    assign en_5             = reg_en_5;
+    assign en_6             = reg_en_6;
+    assign en_7             = reg_en_7;
+    assign en_i             = reg_en_i;
+    assign en_memory_inst   = reg_en_memory_inst;
+    assign en_memory_write  = reg_en_memory_write;
+    assign alu_sel          = reg_alu_sel;
+    assign mux_sel          = reg_mux_sel;
+    assign imm_val          = reg_imm_val;
 
     parameter INITIAL_STATE     = 2'b00;
     parameter LOAD_STATE        = 2'b01;
@@ -76,6 +78,9 @@ module control_unit(
 
     // I_TYPE
     wire [7:0] immediate_val  = d_in[12:5];
+
+    // M_TYPE
+    wire       is_store_inst  = (inst_format == M_TYPE_INST) & d_in[2];
 
     always @(posedge clk or posedge reset) begin
         if(reset)
@@ -110,6 +115,7 @@ module control_unit(
         reg_en_7 = 1'b0;
         reg_en_i = 1'b0;
         reg_en_memory_inst = 1'b0;
+        reg_en_memory_write = 1'b0;
         reg_alu_sel = 3'b000;
         reg_mux_sel = 4'b0000;
 
@@ -140,9 +146,13 @@ module control_unit(
                         end
                         M_TYPE_INST: begin
                             reg_en_memory_inst = 1'b1;
-                            reg_en_c           = 1'b1;
-                            // if st
-                            // reg_mux_sel 
+                            if(is_store_inst) begin
+                                reg_mux_sel = {1'b0, first_operand};
+                                reg_en_memory_write = 1'b1;
+                                reg_en_c            = 1'b0;
+                            end else begin
+                                reg_en_c           = 1'b1;
+                            end
                         end
                         default: begin
                             reg_mux_sel = {1'b0, second_operand};
@@ -152,16 +162,18 @@ module control_unit(
                     endcase
                 end
                 STORE_STATE: begin
-                    case(first_operand)
-                        3'b000: reg_en_0 = 1'b1;
-                        3'b001: reg_en_1 = 1'b1;
-                        3'b010: reg_en_2 = 1'b1;
-                        3'b011: reg_en_3 = 1'b1;
-                        3'b100: reg_en_4 = 1'b1;
-                        3'b101: reg_en_5 = 1'b1;
-                        3'b110: reg_en_6 = 1'b1;
-                        3'b111: reg_en_7 = 1'b1;
-                    endcase
+                    if(!is_store_inst) begin
+                        case(first_operand)
+                            3'b000: reg_en_0 = 1'b1;
+                            3'b001: reg_en_1 = 1'b1;
+                            3'b010: reg_en_2 = 1'b1;
+                            3'b011: reg_en_3 = 1'b1;
+                            3'b100: reg_en_4 = 1'b1;
+                            3'b101: reg_en_5 = 1'b1;
+                            3'b110: reg_en_6 = 1'b1;
+                            3'b111: reg_en_7 = 1'b1;
+                        endcase
+                    end
                     reg_done = 1'b1;
                 end
                 default: begin

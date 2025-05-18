@@ -13,14 +13,13 @@ module memory(
     initial begin
         $readmemh("/Users/sanzhar/coding/mdv/bitty/testing_tools/generator/program.txt", memory_cell);
     end
-    
-    always @(*) begin
-        reg_out = memory_cell[addr];
-    end
 
     always @(*) begin
-        if(en_write)
+        if(en_write) begin
             memory_cell[addr] = data_in;
+        end else begin
+            reg_out = memory_cell[addr];
+        end 
     end
 
 endmodule

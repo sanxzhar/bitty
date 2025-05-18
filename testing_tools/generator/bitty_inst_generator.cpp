@@ -8,7 +8,6 @@ uint16_t BittyInstructionGenerator::Generate(){
 
     uint16_t instruction = 0x0000;
 
-    // Randomly choose between branch, immediate, register-register, or memory operation
     uint8_t instruction_type = std::rand() % 4;
     uint16_t format;
     
@@ -31,10 +30,9 @@ uint16_t BittyInstructionGenerator::Generate(){
     }
 
     if(format == 0b11) {
-        // Memory operation (load/store)
         uint16_t reg1 = std::rand() % 8;
         uint16_t reg2 = std::rand() % 8;
-        uint16_t load_store_bit = 0; // 0 for load, 1 for store (currently only implementing load)
+        uint16_t load_store_bit = std::rand() % 2;
         
         instruction = instruction | (reg1 << 13);
         instruction = instruction | (reg2 << 10);
