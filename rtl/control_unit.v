@@ -16,7 +16,7 @@ module control_unit(
     output wire             en_7,
     output wire             en_i,
     output wire             en_memory_inst,
-    output wire             en_memory_write, // write its logic a bit later
+    output wire             en_memory_write,
     output wire [2:0]       alu_sel,
     output wire [3:0]       mux_sel,
     output wire [15:0]      imm_val

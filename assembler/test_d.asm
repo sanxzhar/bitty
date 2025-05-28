@@ -1,0 +1,10 @@
+addi r0 42
+addi r1 10
+add r2 r0
+sub r3 r0
+and r4 r0
+or r5 r0
+xor r6 r0
+shli r7 2
+shri r0 1
+cmp r1 r0

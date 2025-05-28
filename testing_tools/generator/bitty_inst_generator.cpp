@@ -4,6 +4,10 @@
 #include <ctime>
 #include <iostream>
 
+BittyInstructionGenerator::BittyInstructionGenerator() {
+    std::srand(std::time(nullptr));
+}
+
 uint16_t BittyInstructionGenerator::Generate(){
 
     uint16_t instruction = 0x0000;
@@ -64,6 +68,8 @@ uint16_t BittyInstructionGenerator::Generate(){
 #ifdef BUILD_AS_MAIN
 
 int main(int argc, char* argv[]) {
+    std::srand(std::time(nullptr));
+    
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <N> [output_filename]\n";
         return 1;

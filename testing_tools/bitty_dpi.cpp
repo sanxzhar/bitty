@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdlib>
 #include "emulator/bitty_emu.h"
 #include "svdpi.h"
 
@@ -12,11 +13,12 @@ extern "C" void compare_results(
 
     static bool initialized = false;
     if (!initialized) {
-        emulator.LoadMemoryFromFile("/Users/sanzhar/coding/mdv/bitty/testing_tools/generator/program.txt");
+        emulator.LoadMemoryFromFile("/Users/sanzhar/coding/mdv/program.txt");
         initialized = true;
     }
 
-    uint16_t inst = emulator.Step();
+    uint16_t inst_from_emulator = emulator.Step();
+    uint16_t inst_from_verilog = instruction[0];
 
     uint16_t verilog_registers[8] = {
         reg0[0], reg1[0], reg2[0], reg3[0],
@@ -28,6 +30,7 @@ extern "C" void compare_results(
         uint16_t expected = emulator.GetRegisterValue(i);
         if (expected != verilog_registers[i]) {
             mismatch = true;
+            break;
         }
     }
 
@@ -36,9 +39,14 @@ extern "C" void compare_results(
     } else {
         printf("Verification FAILED for instruction 0x%04x\n", inst);
 
-        printf("Evaluating instruction: ");
+        printf("Evaluating instruction emulator: ");
         for (int bit = 15; bit >= 0; --bit)
-            printf("%d", (inst >> bit) & 1);
+            printf("%d", (inst_from_emulator >> bit) & 1);
+        printf("\n");
+
+        printf("Evaluating instruction verilog: ");
+        for (int bit = 15; bit >= 0; --bit)
+            printf("%d", (inst_from_verilog >> bit) & 1);
         printf("\n");
 
         printf("Verilog Simulation Register Values:\n");

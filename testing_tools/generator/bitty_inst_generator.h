@@ -2,6 +2,6 @@
 
 class BittyInstructionGenerator {
 public:
-    BittyInstructionGenerator() = default;
+    BittyInstructionGenerator();
     uint16_t Generate();
 };

@@ -40,7 +40,7 @@ int main(int argc, char** argv) {
     top->run = 1;
 
     int instr_count = 0;
-    int max_instr = 100;
+    int max_instr = 10000;
 
     while (instr_count < max_instr) {
         for (int i = 0; i < 4; i++) {

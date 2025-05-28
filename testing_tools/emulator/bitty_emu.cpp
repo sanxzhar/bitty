@@ -87,8 +87,7 @@ void BittyEmulator::EvaluateBranchInstr(){
             if (last_alu_result_ != 2) return;
             break;
     }
-
-    uint8_t branch_jump_addr = (inst >> 4) & 0b1111111111111111;
+    uint16_t branch_jump_addr = (inst >> 4) & 0x0FFF;
     pc_ = branch_jump_addr;
 
     return;
