@@ -21,7 +21,8 @@ MODULES.append("top")
 
 # Linux commands invoked within this script.
 # Verilator command to generate C++ and Makefiles.
-VERILATE_COMMAND = "verilator --assert -I./rtl --Wall {0} --cc ./rtl/{1}.v --exe --trace ./test/{1}/{1}_tb.cpp ./testing_tools/bitty_dpi.cpp ./testing_tools/emulator/bitty_emu.cpp ./testing_tools/generator/bitty_inst_generator.cpp"
+VERILATE_COMMAND = "verilator --assert -I./rtl --Wall -Wno-LATCH -Wno-UNOPTFLAT {0} --cc ./rtl/{1}.v --exe --trace ./test/{1}/{1}_tb.cpp ./testing_tools/bitty_dpi.cpp ./testing_tools/emulator/bitty_emu.cpp ./testing_tools/generator/bitty_inst_generator.cpp"
+# VERILATE_COMMAND = "verilator --assert -I./rtl --Wall {0} --cc ./rtl/{1}.v --exe --trace ./test/{1}/{1}_tb.cpp ./testing_tools/bitty_dpi.cpp ./testing_tools/emulator/bitty_emu.cpp ./testing_tools/generator/bitty_inst_generator.cpp"
 # VERILATE_COMMAND = "verilator --assert -I./rtl --Wall {0} --cc ./rtl/{1}.v --exe ./test/{1}/{1}_tb_with_dpi.cpp ./testing_tools/bitty_dpi.cpp"
 MAKE_COMMAND = "make -C obj_dir/ -f V{0}.mk V{0}"
 CLEAN_COMMAND = "rm -rf ./obj_dir"

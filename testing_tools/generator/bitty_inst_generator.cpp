@@ -3,9 +3,15 @@
 #include <random>
 #include <ctime>
 #include <iostream>
+#include <cstdlib>
 
 BittyInstructionGenerator::BittyInstructionGenerator() {
-    std::srand(std::time(nullptr));
+    const char* seed_str = std::getenv("RANDOM_SEED");
+    if (seed_str != nullptr) {
+        std::srand(std::atoi(seed_str));
+    } else {
+        std::srand(std::time(nullptr));
+    }
 }
 
 uint16_t BittyInstructionGenerator::Generate(){
@@ -68,7 +74,12 @@ uint16_t BittyInstructionGenerator::Generate(){
 #ifdef BUILD_AS_MAIN
 
 int main(int argc, char* argv[]) {
-    std::srand(std::time(nullptr));
+    const char* seed_str = std::getenv("RANDOM_SEED");
+    if (seed_str != nullptr) {
+        std::srand(std::atoi(seed_str));
+    } else {
+        std::srand(std::time(nullptr));
+    }
     
     if (argc < 2) {
         std::cerr << "Usage: " << argv[0] << " <N> [output_filename]\n";

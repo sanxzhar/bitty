@@ -10,10 +10,9 @@ extern "C" void compare_results(
 ) {
     static BittyEmulator emulator;
 
-
     static bool initialized = false;
     if (!initialized) {
-        emulator.LoadMemoryFromFile("/Users/sanzhar/coding/mdv/program.txt");
+        emulator.LoadMemoryFromFile("/Users/sanzhar/coding/mdv/bitty/testing_tools/generator/program.txt");
         initialized = true;
     }
 
@@ -35,9 +34,9 @@ extern "C" void compare_results(
     }
 
     if (!mismatch) {
-        printf("Verification PASSED for instruction 0x%04x\n", inst);
-    } else {
-        printf("Verification FAILED for instruction 0x%04x\n", inst);
+        printf("Verification PASSED for instruction 0x%04x\n", inst_from_verilog); }
+    else {
+        printf("Verification FAILED for instruction 0x%04x\n", inst_from_verilog);
 
         printf("Evaluating instruction emulator: ");
         for (int bit = 15; bit >= 0; --bit)
@@ -65,6 +64,8 @@ extern "C" void compare_results(
                 printf("%d", (expected >> bit) & 1);
             printf("\n");
         }
+
+        std::exit(1);
     }
 
 }
