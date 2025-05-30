@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cstdint>
 
 class BittyInstructionGenerator {
 public:

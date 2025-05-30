@@ -1,6 +1,6 @@
 #include <iostream>
 #include <stdint.h>
-
+#include <vector>
 class BittyEmulator
 {
 public:
