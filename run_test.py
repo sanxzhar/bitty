@@ -72,8 +72,16 @@ def run_bitty(test_number, should_gen_wave=False):
     cmd_str = " ".join(cmd)
     returncode, stdout, stderr = run_with_timeout(cmd_str, 100)
     
-    if returncode != 0:
-        return TestResult(test_number, "COMPILE_ERROR", f"Compilation failed: {stderr}")
+    # Check both return code and build output for errors
+    if returncode != 0 or "Error" in stdout or "Error" in stderr:
+        error_msg = f"Build failed:\nSTDOUT: {stdout}\nSTDERR: {stderr}"
+        return TestResult(test_number, "COMPILE_ERROR", error_msg)
+    
+    # Check if the Verilator executable exists
+    if not os.path.exists("./obj_dir/Vtop"):
+        return TestResult(test_number, "COMPILE_ERROR", 
+            "Verilator simulation executable was not created. Build process may have failed silently.\n"
+            f"Build output:\nSTDOUT: {stdout}\nSTDERR: {stderr}")
     
     # Run the Verilator simulation
     print("Running Verilator simulation...")
