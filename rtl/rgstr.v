@@ -1,4 +1,4 @@
-module register(
+module rgstr(
     input  wire                  clk,
     input  wire                  reset,
     input  wire                  en_i,

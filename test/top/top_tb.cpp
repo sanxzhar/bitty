@@ -54,6 +54,7 @@ int main(int argc, char** argv) {
 
     tfp->close();
     top->final();
+    // Verilated::threadContextp()->coveragep()->write("coverage.dat");
     delete top;
     return 0;
 }

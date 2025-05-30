@@ -23,7 +23,7 @@ module instr_fetch_unit(
 
     localparam NOP_INSTRUCTION    = 16'b0000000000000000;
 
-    register PC(
+    rgstr PC(
         .clk(clk),
         .reset(reset),
         .en_i(en_pc),

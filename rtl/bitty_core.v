@@ -47,7 +47,7 @@ module bitty_core (
     assign memory_addr     = reg_s_to_alu;
     assign data_to_memory  = mux_out;
 
-    register RegInst(
+    rgstr RegInst(
         .clk(clk),
         .reset(reset),
         .en_i(en_i),
@@ -55,7 +55,7 @@ module bitty_core (
         .d_out(reg_inst_to_control_unit)
     );
 
-    register Reg0(
+    rgstr Reg0(
         .clk(clk),
         .reset(reset),
         .en_i(en_0),
@@ -63,7 +63,7 @@ module bitty_core (
         .d_out(reg0_to_mux)
     );
 
-    register Reg1(
+    rgstr Reg1(
         .clk(clk),
         .reset(reset),
         .en_i(en_1),
@@ -71,7 +71,7 @@ module bitty_core (
         .d_out(reg1_to_mux)
     );
 
-    register Reg2(
+    rgstr Reg2(
         .clk(clk),
         .reset(reset),
         .en_i(en_2),
@@ -79,7 +79,7 @@ module bitty_core (
         .d_out(reg2_to_mux)
     );
 
-    register Reg3(
+    rgstr Reg3(
         .clk(clk),
         .reset(reset),
         .en_i(en_3),
@@ -87,7 +87,7 @@ module bitty_core (
         .d_out(reg3_to_mux)
     );
 
-    register Reg4(
+    rgstr Reg4(
         .clk(clk),
         .reset(reset),
         .en_i(en_4),
@@ -95,7 +95,7 @@ module bitty_core (
         .d_out(reg4_to_mux)
     );
 
-    register Reg5(
+    rgstr Reg5(
         .clk(clk),
         .reset(reset),
         .en_i(en_5),
@@ -103,7 +103,7 @@ module bitty_core (
         .d_out(reg5_to_mux)
     );
 
-    register Reg6(
+    rgstr Reg6(
         .clk(clk),
         .reset(reset),
         .en_i(en_6),
@@ -111,7 +111,7 @@ module bitty_core (
         .d_out(reg6_to_mux)
     );
 
-    register Reg7(
+    rgstr Reg7(
         .clk(clk),
         .reset(reset),
         .en_i(en_7),
@@ -165,7 +165,7 @@ module bitty_core (
         .out(mux_to_reg_c)
     );
 
-    register RegS(
+    rgstr RegS(
         .clk(clk),
         .reset(reset),
         .en_i(en_s),
@@ -180,7 +180,7 @@ module bitty_core (
         .out(alu_to_reg_c_mux)
     );
 
-    register RegC(
+    rgstr RegC(
         .clk(clk),
         .reset(reset),
         .en_i(en_c),

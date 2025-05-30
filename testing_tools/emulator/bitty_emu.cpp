@@ -1,5 +1,6 @@
 #include "bitty_emu.h"
 #include <fstream>
+#include <algorithm>
 
 BittyEmulator::BittyEmulator() : registers_(8, 0), memory_(65535, 0), pc_(0), last_alu_result_(0)
 {

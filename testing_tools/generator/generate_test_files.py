@@ -1,7 +1,7 @@
 import os
 import subprocess
 
-def create_test_files(num_files=6, lines_per_file=10000):
+def create_test_files(num_files=200, lines_per_file=10000):
     # Create test directory if it doesn't exist
     test_dir = os.path.join(os.path.dirname(__file__), 'test_new')
     os.makedirs(test_dir, exist_ok=True)

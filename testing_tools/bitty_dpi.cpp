@@ -2,6 +2,7 @@
 #include <cstdlib>
 #include "emulator/bitty_emu.h"
 #include "svdpi.h"
+#include <stdint.h>
 
 extern "C" void compare_results(
     svBitVecVal* instruction,
