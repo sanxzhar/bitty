@@ -34,20 +34,20 @@ extern "C" void compare_results(
         }
     }
 
+    printf("Evaluating instruction emulator: ");
+    for (int bit = 15; bit >= 0; --bit)
+        printf("%d", (inst_from_emulator >> bit) & 1);
+    printf("\n");
+
+    printf("Evaluating instruction verilog: ");
+    for (int bit = 15; bit >= 0; --bit)
+        printf("%d", (inst_from_verilog >> bit) & 1);
+    printf("\n");
     if (!mismatch) {
         printf("Verification PASSED for instruction 0x%04x\n", inst_from_verilog); }
     else {
         printf("Verification FAILED for instruction 0x%04x\n", inst_from_verilog);
 
-        printf("Evaluating instruction emulator: ");
-        for (int bit = 15; bit >= 0; --bit)
-            printf("%d", (inst_from_emulator >> bit) & 1);
-        printf("\n");
-
-        printf("Evaluating instruction verilog: ");
-        for (int bit = 15; bit >= 0; --bit)
-            printf("%d", (inst_from_verilog >> bit) & 1);
-        printf("\n");
 
         printf("Verilog Simulation Register Values:\n");
         for (int i = 0; i < 8; ++i) {

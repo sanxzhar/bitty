@@ -141,8 +141,17 @@ uint16_t BittyEmulator::Step()
     if (pc_ >= memory_.size()) return 0;
 
     uint16_t inst = memory_[pc_];
-    Evaluate(inst);
+    uint8_t format_type = inst & 0b11;
+
+    if (format_type == 0b10) {
+        EvaluateBranchInstr();
+        printf("Branch instruction executed, PC updated to %d\n", pc_);
+    }
+
+    uint16_t new_inst = memory_[pc_];
+    Evaluate(new_inst);
     pc_ = pc_ + 1;
+
 
     uint8_t next_inst_format_type = memory_[pc_] & 0b11;
     while(next_inst_format_type == 0b10){
