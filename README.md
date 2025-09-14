@@ -1,4 +1,4 @@
-# Bitty – 16-bit Microprocessor  
+![telegram-cloud-photo-size-2-5343870809187415498-y](https://github.com/user-attachments/assets/70df22ba-dc20-48a3-bb11-fe2615afa682)# Bitty – 16-bit Microprocessor  
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)  
 [![Verilog](https://img.shields.io/badge/HDL-Verilog-blue)]()  
@@ -20,7 +20,7 @@ It supports flexible programmability, UART-based I/O, and modular hardware desig
 
 ## 🖼 Microarchitecture Overview  
 
-![Architecture Diagram](telegram-cloud-photo-size-2-5343870809187415498-y.jpg)  
+![Architecture Diagram](https://github.com/user-attachments/assets/4f61ccc8-66e8-4205-ac3e-0d8a24bb61ef)
 
 *Main components: PC, Fetch Instruction Unit, Branch Logic, UART, and the Bitty Core.*  
 
